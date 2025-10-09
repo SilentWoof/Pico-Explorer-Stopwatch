@@ -37,29 +37,37 @@ def draw():
     display.clear()
     display.set_font("bitmap8")
 
-    # Main timer
-    display.set_pen(WHITE)
-    display.text("Stopwatch", 10, 10, 240, 2)
-
-    if running:
-        display.text(format_time(lap_elapsed), 10, 40, 240, 5)  # Show lap time
-
-        # Show total race time if at least one lap exists
-        if len(laps) > 0:
-            display.set_pen(GREY)
-            display.text("Total: " + format_time(elapsed), 10, 90, 240, 2)  # Smaller font
+    # Idle screen with button labels
+    if not running and elapsed == 0 and len(laps) == 0:
+        display.set_pen(WHITE)
+        display.text("Stopwatch", 35, 110, 240, 4)
+        display.set_pen(GREY)
+        display.text("Start/Stop", 140, 60, 240, 2) # Button X
+        display.text("Lap", 200, 180, 240, 2)  # Button Y
+        display.text("Reset", 10, 60, 240, 2)  # Button A
+        display.text("Reset", 10, 180, 240, 2)  # Button B
     else:
-        display.text(format_time(elapsed), 10, 40, 240, 5)  # Show total time
+        # Main timer
+        display.set_pen(WHITE)
+        display.text("STOPWATCH", 75, 10, 240, 2)
 
-    # Lap times
-    y = 120
-    lap_count = len(laps)
-    start_index = max(0, lap_count - 4)
-    display.set_pen(GREY)
-    for i in range(start_index, lap_count):
-        lap_time = laps[i]
-        display.text("L{}: {}".format(i + 1, format_time(lap_time)), 10, y, 240, 3)
-        y += 40
+        if running:
+            display.text(format_time(lap_elapsed), 15, 40, 240, 5)
+            if len(laps) > 0:
+                display.set_pen(WHITE)
+                display.text("TOTAL: " + format_time(elapsed), 10, 90, 240, 2)
+        else:
+            display.text(format_time(elapsed), 10, 40, 240, 5)
+
+        # Lap times
+        y = 120
+        lap_count = len(laps)
+        start_index = max(0, lap_count - 4)
+        display.set_pen(GREY)
+        for i in range(start_index, lap_count):
+            lap_time = laps[i]
+            display.text("L{}: {}".format(i + 1, format_time(lap_time)), 10, y, 240, 3)
+            y += 40
 
     display.update()
 
@@ -73,7 +81,7 @@ while True:
         else:
             elapsed = time.ticks_ms() - start_time
             lap_time = time.ticks_ms() - lap_start_time
-            laps.append(lap_time)  # Record final lap on stop
+            laps.append(lap_time)
             running = False
         time.sleep(0.2)
 
