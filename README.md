@@ -11,9 +11,11 @@ A compact, lap-enabled stopwatch built for the [Pimoroni Pico Explorer Base](htt
 - 🕓 **Secondary timer** shows total race time after first lap
 - 📋 **Lap history** displays last 4 laps in soft grey
 - 🧠 **Final lap auto-recorded** when stopwatch is stopped
+- 🧾 **Idle screen** shows button labels aligned with physical layout when reset
 
 ## Display Behavior
 
+- **Idle (Reset)**: Screen shows “Start/Stop”, “Lap”, and “Reset” labels beside physical buttons
 - **Running**: Main timer shows lap time; secondary timer shows total time (after first lap)
 - **Stopped**: Main timer shows total time; secondary timer disappears
 - **Lap Pressed**: Lap time is recorded and lap timer resets
@@ -43,4 +45,3 @@ A compact, lap-enabled stopwatch built for the [Pimoroni Pico Explorer Base](htt
 ## License
 
 MIT License. See `LICENSE.md` for details.
-
