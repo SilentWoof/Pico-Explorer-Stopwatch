@@ -10,7 +10,7 @@ display.set_backlight(1.0)
 button_x = Button(14)  # Start/Stop
 button_y = Button(15)  # Lap
 button_b = Button(13)  # Reset
-button_a = Button(12)  # Reset (added)
+button_a = Button(12)  # Reset
 
 # Stopwatch state
 running = False
@@ -24,6 +24,10 @@ laps = []
 WHITE = display.create_pen(255, 255, 255)
 BLACK = display.create_pen(0, 0, 0)
 GREY = display.create_pen(180, 180, 180)
+MID_GREEN = display.create_pen(0, 200, 0)
+MID_RED = display.create_pen(200, 0, 0)
+DARK_GREEN = display.create_pen(0, 60, 0)
+DARK_RED = display.create_pen(60, 0, 0)
 
 def format_time(ms):
     seconds = ms // 1000
@@ -33,19 +37,28 @@ def format_time(ms):
     return "{:02}:{:02}:{:02}.{}".format(hours % 100, minutes % 60, seconds % 60, tenths)
 
 def draw():
-    display.set_pen(BLACK)
+    # Set background color based on state
+    if running:
+        display.set_pen(DARK_GREEN)
+    elif not running and elapsed > 0:
+        display.set_pen(DARK_RED)
+    else:
+        display.set_pen(BLACK)
     display.clear()
     display.set_font("bitmap8")
 
     # Idle screen with button labels
     if not running and elapsed == 0 and len(laps) == 0:
-        display.set_pen(WHITE)
-        display.text("Stopwatch", 35, 110, 240, 4)
+        display.set_pen(MID_RED)
+        display.text("STOP", 30, 110, 240, 4)
+        display.set_pen(MID_GREEN)
+        display.text("WATCH", 115, 110, 240, 4)
+
         display.set_pen(GREY)
-        display.text("Start/Stop", 140, 60, 240, 2) # Button X
-        display.text("Lap", 200, 180, 240, 2)  # Button Y
-        display.text("Reset", 10, 60, 240, 2)  # Button A
-        display.text("Reset", 10, 180, 240, 2)  # Button B
+        display.text("Start/Stop", 140, 60, 240, 2)  # Button X
+        display.text("Lap", 200, 180, 240, 2)        # Button Y
+        display.text("Reset", 10, 60, 240, 2)        # Button A
+        display.text("Reset", 10, 180, 240, 2)       # Button B
     else:
         # Main timer
         display.set_pen(WHITE)
